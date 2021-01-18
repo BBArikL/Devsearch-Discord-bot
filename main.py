@@ -59,10 +59,10 @@ async def on_message(message):
 
     if any(word in msg for word in docs_link):
       word = msg.split(" ")
-      await message.channel.send(docs_link[word[1]])
+      await message.channel.send('Here is some documentation: ' + docs_link[word[1]])
   #check every message 
-  elif any(word in msg == "rtfm"):
-    await message.chanel.send("I am there to save you, ask me someting with &Dev 'language type' ")
+  elif msg.find("rtfm") != -1: 
+    await message.channel.send('I am there to save you, ask me someting with &Dev <language type>!')
     
   
 client.run(os.getenv('TOKEN')) # Runs the bot with the private bot token
