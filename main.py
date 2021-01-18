@@ -2,6 +2,7 @@ import discord #Discord libraries
 import os
 import requests # Allows HTTP requests
 import json
+from keepalive import keep_alive # imports the web server that pings the bot continually
 
 client = discord.Client() # Connects to the discord client
 
@@ -64,5 +65,5 @@ async def on_message(message):
   elif msg.find("rtfm") != -1: 
     await message.channel.send('I am there to save you, ask me someting with &Dev <language type>!')
     
-  
+keep_alive()
 client.run(os.getenv('TOKEN')) # Runs the bot with the private bot token
