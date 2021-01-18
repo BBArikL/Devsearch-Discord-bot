@@ -49,9 +49,10 @@ async def on_message(message):
     return # Does Nothing if the message is sent by itself
   
   msg = message.content # The content of the message sent previously
+  msg = msg.lower()
 
   #message = message.lower()
-  if msg.startswith('&Dev'):
+  if msg.startswith('&dev'):
     # Command : '&Devsearch ....'
     
     # Funneh quote hehehe
