@@ -48,10 +48,8 @@ async def on_message(message):
   if message.author == client.user:
     return # Does Nothing if the message is sent by itself
   
-  msg = message.content # The content of the message sent previously
-  msg = msg.lower()
+  msg = message.content.lower() # The content of the message sent previously, in lower case
 
-  #message = message.lower()
   if msg.startswith('&dev'):
     # Command : '&Devsearch ....'
     
@@ -63,8 +61,19 @@ async def on_message(message):
       word = msg.split(" ")
       await message.channel.send('Here is some documentation: ' + docs_link[word[1]])
   #check every message 
+
   elif msg.find("rtfm") != -1: 
     await message.channel.send('I am there to save you, ask me someting with &Dev <language type>!')
+
+  elif msg.startswith("&git"):
+    await message.channel.send("Want to help the bot? Go here: https://github.com/Noobyprogrammer/Devsearch-Discord-bot")
+  elif msg.startswith("&stack"):
+
+    if len(msg) != 6:
+      await message.channel.send("WIP done here")
+    else:
+      await message.channel.send("The request should be formulated like this: &stack 'question'")
     
 keep_alive()
+
 client.run(os.getenv('TOKEN')) # Runs the bot with the private bot token
