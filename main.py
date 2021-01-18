@@ -2,7 +2,6 @@ import discord #Discord libraries
 import os
 import requests # Allows HTTP requests
 import json
-import random # random (not necessary)
 
 client = discord.Client() # Connects to the discord client
 
