@@ -32,7 +32,7 @@ def get_quote():
 
 # The function down below fucked up a little bit so imma let it there for now
 def format_txt(message):
-  # Will take tthe text, format it, then transfer it to be interpreted, will then ask a connection to the documentation website we want to search in, search the documentation and then reprints the links found formatted
+  # Will take the text, format it, then transfer it to be interpreted, will then ask a connection to the documentation website we want to search in, search the documentation and then reprints the links found formatted
   print('Blob')
   return '<Formatted text>'
 
