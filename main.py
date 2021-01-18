@@ -7,7 +7,7 @@ import random # random (not necessary)
 client = discord.Client() # Connects to the discord client
 
 # Lists of Docs and docs link
-documentations = ["Unity", "Python", "Xojo", "Java", "UE4", "C++","C#","Discord","...."]
+#documentations = ["Unity", "Python", "Xojo", "Java", "UE4", "C++","C#","Discord","...."] Not used anymore lol
 
 docs_link = {
 "Unity" : "https://docs.unity3d.com/Manual/index.html",
@@ -19,9 +19,11 @@ docs_link = {
 "c#" : "https://docs.microsoft.com/en-us/dotnet/csharp/",
 "Discord" : "https://discord.com/developers/docs/intro",
 "Pascal" : "https://www.freepascal.org/docs-html/3.0.0/prog/prog.html",
-"idk" : "then why did you asked"}
+"idk" : "Then why did you asked? :thinking:",
+"Cake": "The cake is not a lie.", # little secret hehehe
+}
 
-#in a perfhttps://www.freepascal.org/docs-html/3.0.0/prog/prog.htmlect world, add a keyword search function in each page...
+#in a perfect world, add a keyword search function in each page...
 def get_quote():
   response = requests.get("https://zenquotes.io/api/random") # Get the page
   json_data = json.loads(response.text) # Converts it to json data
@@ -48,7 +50,7 @@ async def on_message(message):
   msg = message.content # The content of the message sent previously
 
   #message = message.lower()
-  if msg.startswith('&Devsearch'):
+  if msg.startswith('&Dev'):
     # Command : '&Devsearch ....'
     
     # Funneh quote hehehe
@@ -58,11 +60,9 @@ async def on_message(message):
     if any(word in msg for word in docs_link):
       word = msg.split(" ")
       await message.channel.send(docs_link[word[1]])
-  #if i want t ac
-  else if any(word in msg == "rtfm"):
+  #check every message 
+  elif any(word in msg == "rtfm"):
+    await message.chanel.send("I am there to save you, ask me someting with &Dev 'language type' ")
     
-      
-      
   
-
-client.run(os.getenv('TOKEN')) # Runs the bot with the private bot token located in a .env file
+client.run(os.getenv('TOKEN')) # Runs the bot with the private bot token
