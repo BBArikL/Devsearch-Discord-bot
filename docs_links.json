@@ -1,0 +1,16 @@
+//Lists of Docs and docs link
+{
+  "Unity" : "https://docs.unity3d.com/Manual/index.html",
+  "Python" : "https://docs.python.org/3/", 
+  "Xojo" : "http://docs.xojo.com/", 
+  "Java" : "https://docs.oracle.com/javase/8/docs/api/index.html?overview-summary.html",
+  "UE4" :  "https://docs.unrealengine.com/en-US/index.html",
+  "Unrealengine" :  "https://docs.unrealengine.com/en-US/index.html",
+  "C++" : "https://docs.microsoft.com/en-us/cpp/",
+  "C#" : "https://docs.microsoft.com/en-us/dotnet/csharp/",
+  "Discord" : "https://discord.com/developers/docs/intro and https://discordpy.readthedocs.io/en/latest/index.html",
+  "Pascal" : "https://www.freepascal.org/docs-html/3.0.0/prog/prog.html",
+  "Quiskit" : "https://qiskit.org/documentation/",
+  "idk" : "Then why did you asked? :thinking:",
+  "Cake": "The cake is not a lie.", //little secret hehehe
+}
