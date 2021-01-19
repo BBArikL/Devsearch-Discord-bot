@@ -3,8 +3,10 @@ import os
 import requests # Allows HTTP requests
 import json
 from keepalive import keep_alive # imports the web server that pings the bot continually
+#from discord.ext import commands
 
 client = discord.Client() # Connects to the discord client
+#client = commands.Bot(command_prefix = "&")
 
 # Lists of Docs and docs link
 #documentations = ["Unity", "Python", "Xojo", "Java", "UE4", "C++","C#","Discord","...."] Not used anymore lol
@@ -20,6 +22,7 @@ docs_link = {
 "C#" : "https://docs.microsoft.com/en-us/dotnet/csharp/",
 "Discord" : "https://discord.com/developers/docs/intro",
 "Pascal" : "https://www.freepascal.org/docs-html/3.0.0/prog/prog.html",
+"Quiskit" : "https://qiskit.org/documentation/",
 "idk" : "Then why did you asked? :thinking:",
 "Cake": "The cake is not a lie.", # little secret hehehe
 }
@@ -40,6 +43,8 @@ def format_txt(message):
 @client.event #Callback to a unsychronous library of events
 async def on_ready():
   # When the bot is ready to be used
+  await client.change_presence(status = discord.Status.online, activity=discord.Activity(type=discord.ActivityType.listening, name='rtfm'))
+
   print('Logged in as {0.user}'.format(client))
 
 @client.event
@@ -63,7 +68,7 @@ async def on_message(message):
   #check every message 
 
   elif msg.find("rtfm") != -1: 
-    await message.channel.send('I am there to save you, ask me someting with &Dev <language type>!')
+    await message.channel.send('I am there to save you, ask me someting with &Dev <language type>!\nSearching for a topic on StackOverflow? Type &Stack <Question>!\nWant to help the bot? Type &Git!\nAnd thanks to all the ones that made this idea possible! Type &Credits!')
 
   elif msg.startswith("&git"):
     await message.channel.send("Want to help the bot? Go here: https://github.com/Noobyprogrammer/Devsearch-Discord-bot")
