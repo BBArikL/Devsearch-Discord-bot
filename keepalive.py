@@ -1,3 +1,4 @@
+# Creates a web server that can get pinged to keep the bot alive
 from flask import Flask
 from threading import Thread
 

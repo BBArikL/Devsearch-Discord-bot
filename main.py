@@ -1,16 +1,13 @@
 import discord #Discord libraries
 import os
-import requests # Allows HTTP requests
-import json
 from keepalive import keep_alive # imports the web server that pings the bot continually
-#from discord.ext import commands
+from discord.ext import commands
 
 client = discord.Client() # Connects to the discord client
-#client = commands.Bot(command_prefix = "&")
+client = commands.Bot(command_prefix = '&')
+discord.ext.commands.Bot(command_prefix = '&', case_insensitive = True)
 
 # Lists of Docs and docs link
-#documentations = ["Unity", "Python", "Xojo", "Java", "UE4", "C++","C#","Discord","...."] Not used anymore lol
-
 docs_link = {
 "Unity" : "https://docs.unity3d.com/Manual/index.html",
 "Python" : "https://docs.python.org/3/", 
@@ -20,65 +17,59 @@ docs_link = {
 "Unrealengine" :  "https://docs.unrealengine.com/en-US/index.html",
 "C++" : "https://docs.microsoft.com/en-us/cpp/",
 "C#" : "https://docs.microsoft.com/en-us/dotnet/csharp/",
-"Discord" : "https://discord.com/developers/docs/intro",
+"Discord" : "https://discord.com/developers/docs/intro and https://discordpy.readthedocs.io/en/latest/index.html",
 "Pascal" : "https://www.freepascal.org/docs-html/3.0.0/prog/prog.html",
 "Quiskit" : "https://qiskit.org/documentation/",
 "idk" : "Then why did you asked? :thinking:",
 "Cake": "The cake is not a lie.", # little secret hehehe
 }
 
-#in a perfect world, add a keyword search function in each page...
-def get_quote():
-  response = requests.get("https://zenquotes.io/api/random") # Get the page
-  json_data = json.loads(response.text) # Converts it to json data
-  quote = json_data[0]['q'] + " -" + json_data[0]['a'] # Search in the json data and extracts the quote + authors name
-  return quote
-
-# The function down below fucked up a little bit so imma let it there for now
-def format_txt(message):
-  # Will take the text, format it, then transfer it to be interpreted, will then ask a connection to the documentation website we want to search in, search the documentation and then reprints the links found formatted
-  print('Blob')
-  return '<Formatted text>'
-
 @client.event #Callback to a unsychronous library of events
 async def on_ready():
   # When the bot is ready to be used
-  await client.change_presence(status = discord.Status.online, activity=discord.Activity(type=discord.ActivityType.listening, name='rtfm'))
+  await client.change_presence(status = discord.Status.online, activity=discord.Activity(type=discord.ActivityType.listening, name='&rtfm'))
 
   print('Logged in as {0.user}'.format(client))
 
-@client.event
-async def on_message(message):
-# Each time a message is sent
-  if message.author == client.user:
-    return # Does Nothing if the message is sent by itself
-  
-  msg = message.content.lower() # The content of the message sent previously, in lower case
+@client.command()
+async def rtfm(ctx): # Brief intro to the bot
+  await ctx.send('I am there to save you, ask me someting with &Dev <language type>!\nSearching for a topic on StackOverflow? Type &Stack <Question>!\nWant more commands? Type &Dev help!\nWant to help the bot? Type &Git!\nAnd thanks to all the ones that made this idea possible! Type &Credits!')
 
-  if msg.startswith('&dev'):
-    # Command : '&Devsearch ....'
-    
-    # Funneh quote hehehe
-    # quote = get_quote()
-    # await message.channel.send(quote) # Returns a message to be sent by the bot
+@client.command()
+async def dev(ctx, *, question=None): # Checks the documentation of a certain app/language
+  if any(word in question.split(" ")[0] for word in docs_link): # Finds the documentation to check in
+    word = question.split(" ")[0]
 
-    if any(word in msg for word in docs_link):
-      word = msg.split(" ")
-      await message.channel.send('Here is some documentation: ' + docs_link[word[1]])
-  #check every message 
+    #tries to catch syntax errors in Discord????
+    #if (word for word in docs_link):
+    await ctx.send('Here is some documentation: ' + docs_link[word])
+      
+  elif (question.split(" ")[0] == "help"):
+    await ctx.send("welp... you asked for help but i can only give you the satisfaction that devs are as clueless as you") 
+    #we need to write documentation here but Idk what
+    #All the commands formatted in a box
+      
+  else:
+    # Be polite :)
+    await ctx.send("Request not understood.... try '&dev help' for commands")
 
-  elif msg.find("rtfm") != -1: 
-    await message.channel.send('I am there to save you, ask me someting with &Dev <language type>!\nSearching for a topic on StackOverflow? Type &Stack <Question>!\nWant to help the bot? Type &Git!\nAnd thanks to all the ones that made this idea possible! Type &Credits!')
+@client.command()
+async def stack(ctx, *, question=None): #StackOverflow questions
+  if question == None or (question.split(" ")[0]) == "question": 
+    await ctx.send("The request should be formulated like this: &stack 'question'")
+  else:
+    await ctx.send("WIP done here")
 
-  elif msg.startswith("&git"):
-    await message.channel.send("Want to help the bot? Go here: https://github.com/Noobyprogrammer/Devsearch-Discord-bot")
-  elif msg.startswith("&stack"):
+@client.command()
+async def git(ctx): # Links back to the github page
+  await ctx.send("Want to help the bot? Go here: https://github.com/Noobyprogrammer/Devsearch-Discord-bot")
 
-    if len(msg) != 6:
-      await message.channel.send("WIP done here")
-    else:
-      await message.channel.send("The request should be formulated like this: &stack 'question'")
-    
-keep_alive()
+"""
+@client.command()
+async def credits(ctx):
+  await message.channel.send("Thanks to "+ <Persons who contributed to the github> + " for making this bot possible!")
+"""
+
+keep_alive() # Keeps the bot alive
 
 client.run(os.getenv('TOKEN')) # Runs the bot with the private bot token
