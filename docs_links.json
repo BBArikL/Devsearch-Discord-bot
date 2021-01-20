@@ -1,4 +1,3 @@
-//Lists of Docs and docs link
 {
   "Unity" : "https://docs.unity3d.com/Manual/index.html",
   "Python" : "https://docs.python.org/3/", 
@@ -10,7 +9,7 @@
   "C#" : "https://docs.microsoft.com/en-us/dotnet/csharp/",
   "Discord" : "https://discord.com/developers/docs/intro and https://discordpy.readthedocs.io/en/latest/index.html",
   "Pascal" : "https://www.freepascal.org/docs-html/3.0.0/prog/prog.html",
-  "Quiskit" : "https://qiskit.org/documentation/",
+  "Qiskit" : "https://qiskit.org/documentation/",
   "idk" : "Then why did you asked? :thinking:",
-  "Cake": "The cake is not a lie.", //little secret hehehe
+  "Cake": "The cake is not a lie."
 }
