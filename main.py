@@ -4,21 +4,21 @@ import json #Support for json files
 from keepalive import keep_alive # imports the web server that pings the bot continually
 from discord.ext import commands
 
-def get_prefix(client, message): # get the prefix of the current discord server that the bot is in
+def getprefix(client, message): # get the prefix of the current discord server that the bot is in
   with open('prefixes.json','r') as f:
     prefixes = json.load(f)
 
   return prefixes[str(message.guild.id)]
 
 client = discord.Client() # Connects to the discord client
-client = commands.Bot(command_prefix = get_prefix)
-discord.ext.commands.Bot(command_prefix = get_prefix, case_insensitive = True)
+client = commands.Bot(command_prefix = getprefix)
+#discord.ext.commands.Bot(command_prefix = get_prefix, case_insensitive = True)
 client.remove_command("help") # Removes the default "help" function to replace it pby our own
 
 @client.event #Callback to a unsychronous library of events
 async def on_ready():
   # When the bot is ready to be used
-  await client.change_presence(status = discord.Status.online, activity=discord.Activity(type=discord.ActivityType.listening, name=f'{client.command_prefix}rtfm'))
+  await client.change_presence(status = discord.Status.online, activity=discord.Activity(type=discord.ActivityType.listening, name=f'rtfm'))
 
   print('Logged in as {0.user}'.format(client))
 
@@ -34,7 +34,7 @@ async def on_guild_join(guild): # When the bot joins a new server
   with open('prefixes.json','w') as f:
     json.dump(prefixes, f, indent=4)
   
-  await client.change_presence(status = discord.Status.online, activity=discord.Activity(type=discord.ActivityType.listening, name=f'{client.command_prefix}rtfm')) # Updates the activity of the bot
+  await client.change_presence(status = discord.Status.online, activity=discord.Activity(type=discord.ActivityType.listening, name=f'{client.get_prefix}rtfm')) # Updates the activity of the bot
 
 @client.event
 async def on_guild_remove(guild): # When the bot leaves a server
@@ -58,7 +58,7 @@ async def on_command_error(ctx, error):
   elif isinstance(error, commands.MissingPermissions):
     await ctx.send('You do not have the permission to do that.')
   else: # Erreurs non supporté pour le moment
-    await ctx.send('Error not defined. Please report this issue at https://github.com/Noobyprogrammer/Devsearch-Discord-bot')
+    await ctx.send('Error not defined. Please report this issue at https://github.com/BBArikL/Devsearch-Discord-bot')
 
 @client.command()
 async def rtfm(ctx): # Brief intro to the bot
@@ -66,12 +66,12 @@ async def rtfm(ctx): # Brief intro to the bot
 
 @client.group(invoke_without_command=True, case_insensitive = True)
 async def help(ctx): # Custo Help command
-  embed=discord.Embed(title="Devsearch", url="https://github.com/Noobyprogrammer/Devsearch-Discord-bot", description="Search into Application/Languages documentation and provides fast help to devs searching for solutions in their ideas.")
-  embed.add_field(name="Dev", value="Use {client.command_prefix}Dev <language> to get information on links to the documentation. You can also add a keyword to precise your search! For supported documentations, use {client.command_prefix}help Dev.", inline=False)
-  embed.add_field(name="Stack", value="Search for a question in stackoverflow with {client.command_prefix}Stack <Question>!", inline=True)
-  embed.add_field(name="Git", value="Come help the bot! {client.command_prefix}Git", inline=True)
-  embed.add_field(name="Changeprefix", value="Change the bot's prefix. Only persons with Manage Messages role can use this command. {client.command_prefix}ChangePrefix", inline=True)
-  embed.set_footer(text="Support the bot here: https://github.com/Noobyprogrammer/Devsearch-Discord-bot")
+  embed=discord.Embed(title="Devsearch", url="https://github.com/BBArikL/Devsearch-Discord-bot", description="Search into Application/Languages documentation and provides fast help to devs searching for solutions in their ideas.")
+  embed.add_field(name="Dev", value=f"Use {client.command_prefix}Dev <language> to get information on links to the documentation. You can also add a keyword to precise your search! For supported documentations, use {client.command_prefix}help Dev.", inline=False)
+  embed.add_field(name="Stack", value=f"Search for a question in stackoverflow with {client.command_prefix}Stack <Question>!", inline=True)
+  embed.add_field(name="Git", value=f"Come help the bot! {client.command_prefix}Git", inline=True)
+  embed.add_field(name="Changeprefix", value=f"Change the bot's prefix. Only persons with Manage Messages role can use this command. {client.command_prefix}ChangePrefix", inline=True)
+  embed.set_footer(text="Support the bot here: https://github.com/BBArikL/Devsearch-Discord-bot")
   await ctx.send(embed=embed)
 
 @help.command()
@@ -85,8 +85,8 @@ async def devcommand(ctx):
   for docname in docs_link: # Montre tout les documentations possibles
     embed.add_field(name=docname, value=docname+" documentation", inline=True)
 
-  embed.add_field(name="**Syntax**", value="&Dev <Programming language> [Keywords]", inline=False)
-  embed.set_footer(text="Support the bot here: https://github.com/Noobyprogrammer/Devsearch-Discord-bot")
+  embed.add_field(name="**Syntax**", value=f"{client.command_prefix}Dev <Programming language> [Keywords]", inline=False)
+  embed.set_footer(text="Support the bot here: https://github.com/BBArikL/Devsearch-Discord-bot")
   await ctx.send(embed=embed)
 
 @client.command()
@@ -106,13 +106,13 @@ async def dev(ctx, *, question=None): # Checks the documentation of a certain ap
 @client.command()
 async def stack(ctx, *, question=None): #StackOverflow questions
   if question == None or (question.split(" ")[0]) == "question": 
-    await ctx.send("The request should be formulated like this: &stack 'question'")
+    await ctx.send(f"The request should be formulated like this: {client.command_prefix}stack 'question'")
   else:
     await ctx.send("WIP done here")
 
 @client.command()
 async def git(ctx): # Links back to the github page
-  await ctx.send("Want to help the bot? Go here: https://github.com/Noobyprogrammer/Devsearch-Discord-bot")
+  await ctx.send("Want to help the bot? Go here: https://github.com/BBArikL/Devsearch-Discord-bot")
 
 @client.command()
 @commands.has_permissions(manage_messages=True) # Only mods can change the bot's prefix
